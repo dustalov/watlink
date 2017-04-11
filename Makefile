@@ -2,6 +2,9 @@ export LANG:=en_US.UTF-8
 export LC_COLLATE:=C
 export SHELL:=/bin/bash
 
+data-ru:
+	$(MAKE) -C data ru
+
 all: patterns wiktionary mas ruthes joint
 
 joint: patterns wiktionary mas
