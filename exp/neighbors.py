@@ -8,7 +8,7 @@ import csv
 import numpy as np
 import sys
 
-parser = argparse.ArgumentParser(description='Prediction.')
+parser = argparse.ArgumentParser(description='Nearest Neighbors.')
 parser.add_argument('--w2v', required=True, type=argparse.FileType('rb'))
 parser.add_argument('--vectors', default=None, nargs='?', type=argparse.FileType('wb'))
 parser.add_argument('-k', nargs='?', type=int, default=10)
