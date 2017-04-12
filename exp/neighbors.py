@@ -12,7 +12,6 @@ parser = argparse.ArgumentParser(description='Nearest Neighbors.')
 parser.add_argument('--w2v', required=True, type=argparse.FileType('rb'))
 parser.add_argument('--vectors', default=None, nargs='?', type=argparse.FileType('wb'))
 parser.add_argument('-k', nargs='?', type=int, default=10)
-parser.add_argument('subsumptions', type=argparse.FileType('r', encoding='UTF-8'))
 args = parser.parse_args()
 
 w2v = Word2Vec.load_word2vec_format(args.w2v, binary=True, unicode_errors='ignore')
@@ -28,7 +27,7 @@ hyponyms = defaultdict(set)
 
 Y = []
 
-for row in csv.reader(args.subsumptions, delimiter='\t', quoting=csv.QUOTE_NONE):
+for row in csv.reader(sys.stdin, delimiter='\t', quoting=csv.QUOTE_NONE):
     if len(row) < 2 or row[0] not in w2v or row[1] not in w2v:
         continue
 
@@ -46,7 +45,7 @@ for D, I in zip(*index.search(np.array(Y), 1 + args.k)):
     for similarity, neighbor_id in similar:
         neighbor = w2v.wv.index2word[neighbor_id]
 
-        for hyponym in hyponyms[hypernym] - hyponyms[neighbor]:
+        for hyponym in hyponyms[hypernym] - hyponyms[neighbor] - {hypernym, neighbor}:
             print('\t'.join((hyponym, neighbor, str(similarity))))
 
             if args.vectors:
