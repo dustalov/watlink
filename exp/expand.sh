@@ -14,6 +14,8 @@ DELTA=0.7
 PYTHONPATH=$CWD/../../faiss $CWD/neighbors.py < $CWD/../../watset/misc/mas-isas.txt > $CWD/neighbors.txt \
  --w2v=$CWD/../../projlearn/$W2V
 
+sort -S1G --parallel=$(nproc) -uo $CWD/neighbors.txt $CWD/neighbors.txt
+
 $CWD/../../projlearn/predict.py $CWD/predicted.npz < $CWD/neighbors.txt \
   --w2v=$CWD/../../projlearn/$W2V \
   --kmeans=$CWD/../../projlearn/$CLUSTERS/kmeans.pickle \
