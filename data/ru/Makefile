@@ -2,7 +2,7 @@ export LANG:=en_US.UTF-8
 export LC_COLLATE:=C
 export SHELL:=/bin/bash
 
-all: raw gold
+all: raw gold misc
 
 raw: patterns-filter wiktionary mas joint
 
@@ -15,9 +15,6 @@ patterns: ru-librusec-wiki-diff.csv.gz
 
 ru-librusec-wiki-diff.csv.gz:
 	curl -sLO 'http://panchenko.me/data/joint/isas/ru-librusec-wiki-diff.csv.gz'
-
-lexicon:
-	awk -F $$'\t' '{print $$1; print $$2}' ../../../watset/data/ru/edges.count.txt > lexicon.txt
 
 wiktionary: ruwiktionary-20170201.tsv
 	../wiktionary-isas.awk -v RELATION=HYPERNYM ruwiktionary-20170201.tsv >wiktionary-isas.txt
@@ -48,9 +45,13 @@ rwn.xml:
 	@echo "# Assuming that you have RuWordNet in the directory ${CURDIR}/rwn-xml."
 	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.*.xml >rwn.xml
 
+misc: lexicon freqrnc2012.csv
+
+lexicon:
+	awk -F $$'\t' '{print $$1; print $$2}' ../../../watset/data/ru/edges.count.txt > lexicon.txt
+
 freqrnc2012.csv:
 	curl -sLO 'https://hsemysql.wikispaces.com/file/view/freqrnc2012.csv/404746392/freqrnc2012.csv'
 
 clean:
-	rm -fv ru-librusec-wiki-diff.csv.gz freqrnc2012.csv
-	rm -fv *-exp.txt *-isas.txt *-linked.tsv *-hit.tsv
+	rm -fv lexicon.txt *-isas.txt *.csv *.gz *.tsv *.xml
