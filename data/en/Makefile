@@ -24,7 +24,7 @@ joint: patterns wiktionary
 gold: wordnet
 
 wordnet: wordnet-hypernyms-binary.csv.gz
-	zcat wordnet-hypernyms-binary.csv.gz > wordnet-hypernyms-binary.csv
+	zcat wordnet-hypernyms-binary.csv.gz > wordnet-isas.txt
 
 wordnet-hypernyms-binary.csv.gz:
 	curl -sLO 'http://panchenko.me/data/joint/watset/en/wordnet-hypernyms-binary.csv.gz'
