@@ -3,3 +3,6 @@ export LC_COLLATE:=C
 
 data-ru:
 	$(MAKE) -C data ru
+
+data-en:
+	$(MAKE) -C data en
