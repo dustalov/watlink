@@ -39,6 +39,10 @@ for row in csv.reader(sys.stdin, delimiter='\t', quoting=csv.QUOTE_NONE):
 
     Y.append(w2v[row[1]])
 
+    if args.lexicon:
+        lexicon.add(row[0])
+        lexicon.add(row[1])
+
 for D, I in zip(*index.search(np.array(Y), 1 + args.k)):
     similar = zip(D.ravel(), I.ravel())
 
