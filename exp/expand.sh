@@ -18,10 +18,9 @@ for ISAS in $@; do
 
   EXPANDED=$(basename "${ISAS%-isas.txt}-exp")
 
-  awk -F $'\t' '{print $1; print $2}' "$CWD/../../watset/data/ru/edges.count.txt" > "$EXPANDED-lex.txt"
-
   PYTHONPATH=$CWD/../../faiss $CWD/neighbors.py < "$ISAS" > "$EXPANDED-knn.txt" \
-    --w2v="$CWD/../../projlearn/$W2V"
+    --w2v="$CWD/../../projlearn/$W2V" \
+    --lexicon="lexicon.txt"
 
   sort -S1G --parallel=$(nproc) -uo "$EXPANDED-knn.txt" "$EXPANDED-knn.txt"
 
