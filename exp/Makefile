@@ -7,3 +7,6 @@ expand:
 
 isas:
 	$(MAKE) -C ../data/ru raw
+
+clean:
+	rm -fv *-{knn,delta,isas}.txt *.npy *.npy.gz
