@@ -10,8 +10,13 @@ import sys
 
 parser = argparse.ArgumentParser(description='Nearest Neighbors.')
 parser.add_argument('--w2v', required=True, type=argparse.FileType('rb'))
-parser.add_argument('-k', nargs='?', type=int, default=10)
+parser.add_argument('--lexicon', default=None, type=argparse.FileType('r', encoding='UTF-8'))
+parser.add_argument('--closer', default=False, action='store_true')
+parser.add_argument('-k', default=10, type=int)
 args = parser.parse_args()
+
+if args.lexicon:
+    lexicon = {word.rstrip().lower() for word in args.lexicon}
 
 w2v = Word2Vec.load_word2vec_format(args.w2v, binary=True, unicode_errors='ignore')
 w2v.init_sims(replace=True)
@@ -44,5 +49,9 @@ for D, I in zip(*index.search(np.array(Y), 1 + args.k)):
     for similarity, neighbor_id in similar:
         neighbor = w2v.wv.index2word[neighbor_id]
 
+        if args.lexicon is not None and neighbor not in lexicon:
+            continue
+
         for hyponym in hyponyms[hypernym] - hyponyms[neighbor] - {hypernym, neighbor}:
-            print('\t'.join((hyponym, neighbor, str(similarity))))
+            if not args.closer or w2v.wv.similarity(hyponym, hypernym) <= w2v.wv.similarity(hyponym, neighbor):
+                print('\t'.join((hyponym, neighbor, str(similarity))))
