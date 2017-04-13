@@ -3,5 +3,7 @@ rwn-*/
 dict_ru_ru-*.oxt
 *.dat
 *.txt
+*.tsv
 *.xml
 *.csv
+*.gz

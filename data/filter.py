@@ -8,7 +8,7 @@ from signal import signal, SIGINT
 signal(SIGINT, lambda signum, frame: sys.exit(1))
 
 parser = argparse.ArgumentParser()
-parser.add_argument('lexicon', type=argparse.FileType('r'))
+parser.add_argument('lexicon', type=argparse.FileType('r', encoding='UTF-8'))
 parser.add_argument('-1', action='store_true', dest='first')
 args = parser.parse_args()
 
