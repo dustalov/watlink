@@ -11,21 +11,31 @@ MODEL=regularized_hyponym
 
 DELTA=0.7
 
-awk -F $'\t' '{print $1; print $2}' $CWD/../../watset/data/ru/edges.count.txt > lexicon.txt
+for ISAS in $@; do
+  if [ ${ISAS:-13} == "-exp-isas.txt" ]; then
+    continue
+  fi
 
-PYTHONPATH=$CWD/../../faiss $CWD/neighbors.py < $CWD/../../watset/misc/mas-isas.txt > $CWD/neighbors.txt \
-  --w2v=$CWD/../../projlearn/$W2V
+  EXPANDED=${ISAS%-isas.txt}-exp
 
-sort -S1G --parallel=$(nproc) -uo $CWD/neighbors.txt $CWD/neighbors.txt
+  awk -F $'\t' '{print $1; print $2}' "$CWD/../../watset/data/ru/edges.count.txt" > "$EXPANDED-lex.txt"
 
-$CWD/../../projlearn/predict.py $CWD/predicted.npz.gz < $CWD/neighbors.txt \
-  --w2v=$CWD/../../projlearn/$W2V \
-  --kmeans=$CWD/../../projlearn/$CLUSTERS/kmeans.pickle \
-  --model=$MODEL \
-  --path=$CWD/../../projlearn/$CLUSTERS \
-  --gzip
+  PYTHONPATH=$CWD/../../faiss $CWD/neighbors.py < "$ISAS" > "$EXPANDED-knn.txt" \
+    --w2v="$CWD/../../projlearn/$W2V"
 
-$CWD/threshold.py -d $DELTA < $CWD/neighbors.txt > $CWD/expand.txt \
-  --w2v=$CWD/../../projlearn/$W2V \
-  --predicted=$CWD/predicted.npz.gz \
-  --gzip
+  sort -S1G --parallel=$(nproc) -uo "$EXPANDED-knn.txt" "$EXPANDED-knn.txt"
+
+  $CWD/../../projlearn/predict.py "$EXPANDED-hyp.npz.gz" < "$EXPANDED-knn.txt" \
+    --w2v="$CWD/../../projlearn/$W2V" \
+    --kmeans="$CWD/../../projlearn/$CLUSTERS/kmeans.pickle" \
+    --model="$MODEL" \
+    --path="$CWD/../../projlearn/$CLUSTERS" \
+    --gzip
+
+  $CWD/threshold.py -d "$DELTA" < "$EXPANDED-knn.txt" > "$EXPANDED-delta.txt" \
+    --w2v="$CWD/../../projlearn/$W2V" \
+    --predicted="$EXPANDED-hyp.npz.gz" \
+    --gzip
+
+  cat "$ISAS" "$EXPANDED-delta.txt" > "$EXPANDED-isas.txt"
+done
