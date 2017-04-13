@@ -11,6 +11,8 @@ MODEL=regularized_hyponym
 
 DELTA=0.7
 
+awk -F $'\t' '{print $1; print $2}' $CWD/../../watset/data/ru/edges.count.txt > lexicon.txt
+
 PYTHONPATH=$CWD/../../faiss $CWD/neighbors.py < $CWD/../../watset/misc/mas-isas.txt > $CWD/neighbors.txt \
  --w2v=$CWD/../../projlearn/$W2V
 
