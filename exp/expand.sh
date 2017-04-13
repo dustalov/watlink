@@ -14,16 +14,18 @@ DELTA=0.7
 awk -F $'\t' '{print $1; print $2}' $CWD/../../watset/data/ru/edges.count.txt > lexicon.txt
 
 PYTHONPATH=$CWD/../../faiss $CWD/neighbors.py < $CWD/../../watset/misc/mas-isas.txt > $CWD/neighbors.txt \
- --w2v=$CWD/../../projlearn/$W2V
+  --w2v=$CWD/../../projlearn/$W2V
 
 sort -S1G --parallel=$(nproc) -uo $CWD/neighbors.txt $CWD/neighbors.txt
 
-$CWD/../../projlearn/predict.py $CWD/predicted.npz < $CWD/neighbors.txt \
+$CWD/../../projlearn/predict.py $CWD/predicted.npz.gz < $CWD/neighbors.txt \
   --w2v=$CWD/../../projlearn/$W2V \
   --kmeans=$CWD/../../projlearn/$CLUSTERS/kmeans.pickle \
   --model=$MODEL \
-  --path=$CWD/../../projlearn/$CLUSTERS
+  --path=$CWD/../../projlearn/$CLUSTERS \
+  --gzip
 
 $CWD/threshold.py -d $DELTA < $CWD/neighbors.txt > $CWD/expand.txt \
   --w2v=$CWD/../../projlearn/$W2V \
-  --predicted=$CWD/predicted.npz
+  --predicted=$CWD/predicted.npz.gz \
+  --gzip
