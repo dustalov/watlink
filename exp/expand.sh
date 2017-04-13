@@ -16,7 +16,7 @@ for ISAS in $@; do
     continue
   fi
 
-  EXPANDED=${ISAS%-isas.txt}-exp
+  EXPANDED=$(basename "${ISAS%-isas.txt}-exp")
 
   awk -F $'\t' '{print $1; print $2}' "$CWD/../../watset/data/ru/edges.count.txt" > "$EXPANDED-lex.txt"
 
