@@ -20,7 +20,7 @@ for ISAS in $@; do
 
   PYTHONPATH=$CWD/../../faiss $CWD/neighbors.py < "$ISAS" > "$EXPANDED-knn.txt" \
     --w2v="$CWD/../../projlearn/$W2V" \
-    --lexicon="lexicon.txt"
+    --lexicon="$CWD/../data/ru/lexicon.txt"
 
   sort -S1G --parallel=$(nproc) -uo "$EXPANDED-knn.txt" "$EXPANDED-knn.txt"
 

@@ -6,7 +6,7 @@ expand:
 	cat {patterns-limit,mas}-exp-isas.txt >joint-exp-isas.txt
 
 isas:
-	$(MAKE) -C ../data/ru raw
+	$(MAKE) -C ../data/ru raw misc
 
 clean:
 	rm -fv *-{knn,delta,isas}.txt *.npy *.npy.gz
