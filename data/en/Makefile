@@ -7,7 +7,7 @@ all: raw gold
 raw: patterns wiktionary joint
 
 patterns: en_ps59g-rnk3-min100-nomwe-39k.csv
-	tail -n+2 en_ps59g-rnk3-min100-nomwe-39k.csv | tr ' ' '_' | sort --parallel=$$(nproc) -t$$'\t' -S1G -k3,3nr -k1,1 -s >patterns-isas.txt
+	tr ' ' '_' < en_ps59g-rnk3-min100-nomwe-39k.csv | sort --parallel=$$(nproc) -t$$'\t' -S1G -k3,3nr -k1,1 -s >patterns-isas.txt
 
 en_ps59g-rnk3-min100-nomwe-39k.csv:
 	curl -sLO 'http://panchenko.me/data/joint/isas/en_ps59g-rnk3-min100-nomwe-39k.csv'
