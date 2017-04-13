@@ -29,4 +29,4 @@ done
 
 done
 
-eval/evaluate.py --gold=data/ru/rwn-isas.txt data/ru/{patterns{,-limit,-filter},wiktionary,mas,joint}-isas.txt eval/ru/**/*-isas.txt | tee pairwise-ru-rwn.tsv | sort -t $'\t' -g -k9r | column -t
+eval/pairwise.py --gold=data/ru/rwn-isas.txt data/ru/{patterns{,-limit,-filter},wiktionary,mas,joint}-isas.txt eval/ru/**/*-isas.txt | tee pairwise-ru-rwn.tsv | sort -t $'\t' -g -k9r | column -t

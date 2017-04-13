@@ -29,4 +29,4 @@ done
 
 done
 
-eval/evaluate.py --gold=data/en/wordnet-isas.txt data/en/{patterns,wiktionary,joint}-isas.txt eval/en/**/*-isas.txt | tee pairwise-en-wordnet.tsv | sort -t $'\t' -g -k9r | column -t
+eval/pairwise.py --gold=data/en/wordnet-isas.txt data/en/{patterns,wiktionary,joint}-isas.txt eval/en/**/*-isas.txt | tee pairwise-en-wordnet.tsv | sort -t $'\t' -g -k9r | column -t
