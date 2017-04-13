@@ -12,14 +12,14 @@ MODEL=regularized_hyponym
 DELTA=0.7
 
 PYTHONPATH=$CWD/../../faiss $CWD/neighbors.py < $CWD/../../watset/misc/mas-isas.txt > $CWD/neighbors.txt \
-  --w2v=$CWD/../../projlearn/$W2V \
-  --vectors=$CWD/vectors.txt \
+ --w2v=$CWD/../../projlearn/$W2V
 
-$CWD/../../projlearn/predict.py < $CWD/vectors.txt > $CWD/predicted.txt \
+$CWD/../../projlearn/predict.py $CWD/predicted.npz < $CWD/neighbors.txt \
+  --w2v=$CWD/../../projlearn/$W2V \
   --kmeans=$CWD/../../projlearn/$CLUSTERS/kmeans.pickle \
   --model=$MODEL \
   --path=$CWD/../../projlearn/$CLUSTERS
 
 $CWD/threshold.py -d $DELTA < $CWD/neighbors.txt > $CWD/expand.txt \
-  --vectors=$CWD/vectors.txt \
-  --predicted=$CWD/predicted.txt
+  --w2v=$CWD/../../projlearn/$W2V \
+  --predicted=$CWD/predicted.npz

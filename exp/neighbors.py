@@ -10,7 +10,6 @@ import sys
 
 parser = argparse.ArgumentParser(description='Nearest Neighbors.')
 parser.add_argument('--w2v', required=True, type=argparse.FileType('rb'))
-parser.add_argument('--vectors', default=None, nargs='?', type=argparse.FileType('wb'))
 parser.add_argument('-k', nargs='?', type=int, default=10)
 args = parser.parse_args()
 
@@ -47,7 +46,3 @@ for D, I in zip(*index.search(np.array(Y), 1 + args.k)):
 
         for hyponym in hyponyms[hypernym] - hyponyms[neighbor] - {hypernym, neighbor}:
             print('\t'.join((hyponym, neighbor, str(similarity))))
-
-            if args.vectors:
-                vectors = np.concatenate((w2v[hyponym], w2v[neighbor]))
-                np.savetxt(args.vectors, vectors.reshape(1, w2v.layer1_size * 2))
