@@ -14,10 +14,10 @@ from signal import signal, SIGINT
 signal(SIGINT, lambda signum, frame: sys.exit(1))
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--sample', required=True, type=argparse.FileType('r'))
+parser.add_argument('--sample', required=True, type=argparse.FileType('r', encoding='UTF-8'))
 parser.add_argument('--significance', action='store_true')
-parser.add_argument('--alpha', nargs='?', type=float, default=0.01)
-parser.add_argument('path', nargs='+', type=argparse.FileType('r'))
+parser.add_argument('--alpha', default=0.01, type=float)
+parser.add_argument('path', nargs='+', type=argparse.FileType('r', encoding='UTF-8'))
 args = parser.parse_args()
 
 METRICS = {metric: globals()[metric + '_score'] for metric in ('precision', 'recall', 'f1')}
