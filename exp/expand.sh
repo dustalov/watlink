@@ -9,7 +9,7 @@ CLUSTERS=20170122-russian/sz500-k20-l1.0
 
 MODEL=regularized_hyponym
 
-DELTA=0.7
+DELTA=0.6
 
 for ISAS in $@; do
   if [ ${ISAS:-13} == "-exp-isas.txt" ]; then
