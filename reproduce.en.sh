@@ -11,7 +11,7 @@ mkdir -p "eval/en/$WEIGHT"
 
 for SYNSETS in data/en/*-synsets.tsv; do
 
-for ISAS in "$DATA"; do
+for ISAS in $DATA; do
 
   if [ ! -f "$ISAS" ]; then
     continue
@@ -31,4 +31,4 @@ done
 
 done
 
-eval/pairwise.py --gold=data/en/wordnet-isas.txt "$DATA" eval/en/**/*-isas.txt | tee pairwise-en-wordnet.tsv | sort -t $'\t' -g -k9r | column -t
+eval/pairwise.py --gold=data/en/wordnet-isas.txt $DATA eval/en/**/*-isas.txt | tee pairwise-en-wordnet.tsv | sort -t $'\t' -g -k9r | column -t
