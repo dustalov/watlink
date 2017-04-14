@@ -25,27 +25,25 @@ METRICS = {metric: globals()[metric + '_score'] for metric in ('precision', 'rec
 gold = defaultdict(lambda: False)
 
 for path in args.path:
-    with path as f:
-        for row in csv.DictReader(f, delimiter='\t', quoting=csv.QUOTE_NONE):
-            if not row['INPUT:hypernym'] or not row['OUTPUT:judgement']:
-                continue
+    for row in csv.DictReader(path, delimiter='\t', quoting=csv.QUOTE_NONE):
+        if not row['INPUT:hypernym'] or not row['OUTPUT:judgement']:
+            continue
 
-            hyponym = row['INPUT:hyponym']
+        hyponym = row['INPUT:hyponym']
 
-            for hypernym in row['INPUT:hypernym'].split(', '):
-                assert (hyponym, hypernym) not in gold, (hyponym, hypernym)
+        for hypernym in row['INPUT:hypernym'].split(', '):
+            assert (hyponym, hypernym) not in gold, (hyponym, hypernym)
 
-                gold[(hyponym, hypernym)] = (row['OUTPUT:judgement'].lower() == 'true')
+            gold[(hyponym, hypernym)] = (row['OUTPUT:judgement'].lower() == 'true')
 
 resources = defaultdict(list)
 
-with args.sample as f:
-    for row in csv.DictReader(f, delimiter='\t', quoting=csv.QUOTE_NONE):
-        hyponym, hypernym = row['hyponym'], row['hypernym'] if row['hypernym'] else None
+for row in csv.DictReader(f, delimiter='\t', quoting=csv.QUOTE_NONE):
+    hyponym, hypernym = row['hyponym'], row['hypernym'] if row['hypernym'] else None
 
-        assert hypernym is None or (hyponym, hypernym) in gold, (hyponym, hypernym)
+    assert hypernym is None or (hyponym, hypernym) in gold, (hyponym, hypernym)
 
-        resources[row['path']].append((hyponym, hypernym))
+    resources[row['path']].append((hyponym, hypernym))
 
 lexicon = sorted({hyponym for pairs in resources.values() for hyponym, _ in pairs})
 
