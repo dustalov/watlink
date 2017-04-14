@@ -39,10 +39,16 @@ ruthes.xml:
 	./ruthes-stub.awk ruthes-v2/*.xml >ruthes.xml
 
 rwn: rwn.xml
+	xsltproc rwn-isas.xsl rwn.a.xml >rwn-a-isas.txt
+	xsltproc rwn-isas.xsl rwn.n.xml >rwn-n-isas.txt
+	xsltproc rwn-isas.xsl rwn.v.xml >rwn-v-isas.txt
 	xsltproc rwn-isas.xsl rwn.xml >rwn-isas.txt
 
 rwn.xml:
 	@echo "# Assuming that you have RuWordNet in the directory ${CURDIR}/rwn-xml."
+	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.A.xml >rwn.a.xml
+	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.N.xml >rwn.n.xml
+	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.V.xml >rwn.v.xml
 	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.*.xml >rwn.xml
 
 misc: lexicon freqrnc2012.csv
