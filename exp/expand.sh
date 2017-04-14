@@ -24,7 +24,7 @@ for ISAS in $@; do
 
   sort -S1G --parallel=$(nproc) -uo "$EXPANDED-knn.txt" "$EXPANDED-knn.txt"
 
-  $CWD/../../projlearn/predict.py "$EXPANDED-hyp.npz.gz" < "$EXPANDED-knn.txt" \
+  $CWD/../../projlearn/predict.py "$EXPANDED-$MODEL-hyp.npz.gz" < "$EXPANDED-knn.txt" \
     --w2v="$CWD/../../projlearn/$W2V" \
     --kmeans="$CWD/../../projlearn/$CLUSTERS/kmeans.pickle" \
     --model="$MODEL" \
@@ -33,7 +33,7 @@ for ISAS in $@; do
 
   $CWD/threshold.py -d "$DELTA" < "$EXPANDED-knn.txt" > "$EXPANDED-delta.txt" \
     --w2v="$CWD/../../projlearn/$W2V" \
-    --predicted="$EXPANDED-hyp.npz.gz" \
+    --predicted="$EXPANDED-$MODEL-hyp.npz.gz" \
     --gzip
 
   cat "$ISAS" "$EXPANDED-delta.txt" > "$EXPANDED-isas.txt"
