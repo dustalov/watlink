@@ -44,7 +44,7 @@ done
 
 md5sum <(./toloka.awk gent-isa-$WORDS-pool-*-hit.tsv) toloka-isa-$WORDS-hit.tsv
 
-Training HIT
+# Training HIT
 
 ./freqrncs.py --freq=freqrnc2012.csv --skip=$TRAIN_SKIP -n=$TRAIN_HITS $ISAS > isa-$TRAIN_HITS-skip-$TRAIN_SKIP-train-hit.tsv
 
