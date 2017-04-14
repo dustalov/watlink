@@ -1,15 +1,17 @@
 #!/bin/bash -ex
 export LANG=en_US.UTF-8 LC_COLLATE=C
 
+DATA=$(find data/en -regex '^.*\(patterns\|wiktionary\|joint\).*-isas\.txt$')
+
 rm -rfv eval/en
 
 for WEIGHT in tf idf tfidf; do
 
-mkdir -p eval/en/$WEIGHT
+mkdir -p "eval/en/$WEIGHT"
 
 for SYNSETS in data/en/*-synsets.tsv; do
 
-for ISAS in data/en/{patterns,wiktionary,joint}-isas.txt; do
+for ISAS in "$DATA"; do
 
   if [ ! -f "$ISAS" ]; then
     continue
@@ -29,4 +31,4 @@ done
 
 done
 
-eval/pairwise.py --gold=data/en/wordnet-isas.txt data/en/{patterns,wiktionary,joint}-isas.txt eval/en/**/*-isas.txt | tee pairwise-en-wordnet.tsv | sort -t $'\t' -g -k9r | column -t
+eval/pairwise.py --gold=data/en/wordnet-isas.txt "$DATA" eval/en/**/*-isas.txt | tee pairwise-en-wordnet.tsv | sort -t $'\t' -g -k9r | column -t
