@@ -31,6 +31,6 @@ done
 
 done
 
-eval/pairwise.py --gold=data/ru/rwn-isas.txt $DATA eval/ru/**/*-isas.txt | tee pairwise-ru-rwn.tsv | sort -t $'\t' -g -k9r | column -t
+eval/pathwise.py --gold=data/ru/rwn-isas.txt $DATA eval/ru/**/*-isas.txt | tee pathwise-ru-rwn.tsv | sort -t $'\t' -g -k9r | column -t
 
-eval/pairwise.py --gold=data/ru/ruthes-isas.txt $DATA eval/ru/**/*-isas.txt | tee pairwise-ru-ruthes.tsv | sort -t $'\t' -g -k9r | column -t
+eval/pathwise.py --gold=data/ru/ruthes-isas.txt $DATA eval/ru/**/*-isas.txt | tee pathwise-ru-ruthes.tsv | sort -t $'\t' -g -k9r | column -t

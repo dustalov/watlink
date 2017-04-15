@@ -31,4 +31,4 @@ done
 
 done
 
-eval/pairwise.py --gold=data/en/wordnet-isas.txt $DATA eval/en/**/*-isas.txt | tee pairwise-en-wordnet.tsv | sort -t $'\t' -g -k9r | column -t
+eval/pathwise.py --gold=data/en/wordnet-isas.txt $DATA eval/en/**/*-isas.txt | tee pathwise-en-wordnet.tsv | sort -t $'\t' -g -k9r | column -t
