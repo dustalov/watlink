@@ -68,7 +68,7 @@ for (hyponym, genitive), rows in sorted(records.items()):
 
         print('\t'.join((
             hyponym,
-            ', '.join(hypernyms[(hyponym, genitive)]),
+            ', '.join(sorted(hypernyms[(hyponym, genitive)])),
             genitive,
             judgement,
             '%.2f%%' % confidence)
