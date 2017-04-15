@@ -1,20 +1,19 @@
 #!/bin/bash -ex
 export LANG=en_US.UTF-8 LC_COLLATE=C
 
-ISAS="ruthes-isas.txt \
-patterns-isas.txt \
-patterns-limit-isas.txt \
+ISAS="../data/ru/ruthes-isas.txt \
+../data/ru/rwn-n-isas.txt \
+../data/ru/patterns-isas.txt \
+../data/ru/patterns-limit-isas.txt \
+../data/ru/wiktionary-isas.txt \
+../data/ru/mas-isas.txt \
+../data/ru/joint-isas.txt \
 patterns-limit-exp-isas.txt \
-patterns-filter-exp-isas.txt \
-wiktionary-isas.txt \
 wiktionary-exp-isas.txt \
-mas-isas.txt \
 mas-exp-isas.txt \
-joint-isas.txt \
 joint-exp-isas.txt \
-watset-mcl-mcl-patterns-limit-tf-isas.txt \
-watset-cw-nolog-mcl-joint-exp-tfidf-isas.txt \
-watset-cw-nolog-mcl-joint-tfidf-isas.txt"
+watset-cw-nolog-mcl-joint-exp-isas.txt \
+watset-cw-nolog-mcl-joint-isas.txt"
 
 SKIP=0
 STEP=100
@@ -26,7 +25,7 @@ TRAIN_HITS=50
 
 # Actual HIT
 
-./freqrncs.py --freq=freqrnc2012.csv --skip=$SKIP -n=$WORDS $ISAS > isa-$WORDS-hit.tsv
+./freqrncs.py --freq=../data/ru/freqrnc2012.csv --skip=$SKIP -n=$WORDS $ISAS > isa-$WORDS-hit.tsv
 
 ./genitives.py < isa-$WORDS-hit.tsv > gent-isa-$WORDS-hit.tsv
 
@@ -35,7 +34,7 @@ TRAIN_HITS=50
 for i in $(seq $STEP $STEP $WORDS); do
   OFFSET=$((SKIP+i-STEP))
 
-  ./freqrncs.py --freq=freqrnc2012.csv --skip=$OFFSET -n=$STEP $ISAS > isa-$WORDS-pool-$i-hit.tsv
+  ./freqrncs.py --freq=../data/ru/freqrnc2012.csv --skip=$OFFSET -n=$STEP $ISAS > isa-$WORDS-pool-$i-hit.tsv
 
   ./genitives.py < isa-$WORDS-pool-$i-hit.tsv > gent-isa-$WORDS-pool-$i-hit.tsv
 
@@ -46,7 +45,7 @@ md5sum <(./toloka.awk gent-isa-$WORDS-pool-*-hit.tsv) toloka-isa-$WORDS-hit.tsv
 
 # Training HIT
 
-./freqrncs.py --freq=freqrnc2012.csv --skip=$TRAIN_SKIP -n=$TRAIN_HITS $ISAS > isa-$TRAIN_HITS-skip-$TRAIN_SKIP-train-hit.tsv
+./freqrncs.py --freq=../data/ru/freqrnc2012.csv --skip=$TRAIN_SKIP -n=$TRAIN_HITS $ISAS > isa-$TRAIN_HITS-skip-$TRAIN_SKIP-train-hit.tsv
 
 ./genitives.py < isa-$TRAIN_HITS-skip-$TRAIN_SKIP-train-hit.tsv > gent-isa-$TRAIN_HITS-skip-$TRAIN_SKIP-train-hit.tsv
 
