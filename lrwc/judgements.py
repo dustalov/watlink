@@ -38,7 +38,7 @@ for path in args.path:
 
 resources = defaultdict(list)
 
-for row in csv.DictReader(f, delimiter='\t', quoting=csv.QUOTE_NONE):
+for row in csv.DictReader(args.sample, delimiter='\t', quoting=csv.QUOTE_NONE):
     hyponym, hypernym = row['hyponym'], row['hypernym'] if row['hypernym'] else None
 
     assert hypernym is None or (hyponym, hypernym) in gold, (hyponym, hypernym)
