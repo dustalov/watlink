@@ -18,7 +18,7 @@ wiktionary: enwiktionary-20170201.tsv enwiktionary-20170201-unfiltered.tsv
 enwiktionary-20170201.tsv:
 	curl -sLO 'http://depot.nlpub.ru/wiktionary/enwiktionary-20170201.tsv'
 
-enwiktionary-20170201.tsv:
+enwiktionary-20170201-unfiltered.tsv:
 	curl -sLO 'http://depot.nlpub.ru/wiktionary/enwiktionary-20170201-unfiltered.tsv'
 
 joint: patterns wiktionary
