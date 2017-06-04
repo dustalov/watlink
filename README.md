@@ -23,4 +23,4 @@ Watlink is a method for automatic disambiguation of sense labels of hypernyms. I
 
 ## Copyright
 
-This repository contains the implementation of Watset. See LICENSE for details.
+This repository contains the implementation of Watlink. See LICENSE for details.
