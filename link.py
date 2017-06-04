@@ -75,7 +75,7 @@ def emit(id):
             if cosine > 0:
                 candidates[(hypernym, hid)] = cosine
 
-    matches = [(hypernym, hid, cosine) for (hypernym, hid), cosine in candidates.most_common(args.k) if hypernym not in synsets[id]]
+    matches = [(hypernym, hid, cosine) for (hypernym, hid), cosine in candidates.most_common(len(candidates) if args.k == 0 else args.k) if hypernym not in synsets[id]]
 
     return (id, matches)
 
