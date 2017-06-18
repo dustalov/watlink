@@ -24,7 +24,7 @@ ruwiktionary-20170201.tsv:
 
 mas:
 	@echo "# Assuming that you have MAS as is-a-rel_MAS.txt."
-	./mas-isas.awk is-a-rel_MAS.txt >mas-isas.txt
+	[ -r "is-a-rel_MAS.txt" ] && ./mas-isas.awk is-a-rel_MAS.txt >mas-isas.txt || (echo -n >mas-isas.txt && echo "No MAS for you." >/dev/stderr)
 
 joint: patterns wiktionary mas
 	cat {patterns-limit,wiktionary,mas}-isas.txt >joint-isas.txt
