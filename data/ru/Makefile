@@ -24,7 +24,7 @@ ruwiktionary-20170201.tsv:
 
 mas:
 	@echo "# Assuming that you have MAS as is-a-rel_MAS.txt."
-	[ -r "is-a-rel_MAS.txt" ] && ./mas-isas.awk is-a-rel_MAS.txt >mas-isas.txt || (echo -n >mas-isas.txt && echo "No MAS for you." >/dev/stderr)
+	./mas-isas.awk is-a-rel_MAS.txt >mas-isas.txt || echo "No MAS for you." >/dev/stderr
 
 joint: patterns wiktionary mas
 	cat {patterns-limit,wiktionary,mas}-isas.txt >joint-isas.txt
@@ -32,24 +32,24 @@ joint: patterns wiktionary mas
 gold: ruthes rwn
 
 ruthes: ruthes.xml
-	xsltproc ruthes-isas.xsl ruthes.xml >ruthes-isas.txt
+	xsltproc ruthes-isas.xsl ruthes.xml >ruthes-isas.txt || echo "No RuThes for you." >/dev/stderr
 
 ruthes.xml:
 	@echo "# Assuming that you have RuThes in the directory ${CURDIR}/ruthes-v2."
-	./ruthes-stub.awk ruthes-v2/*.xml >ruthes.xml
+	./ruthes-stub.awk ruthes-v2/*.xml >ruthes.xml || echo "No RuThes for you." >/dev/stderr
 
 rwn: rwn.xml
-	xsltproc rwn-isas.xsl rwn.a.xml >rwn-a-isas.txt
-	xsltproc rwn-isas.xsl rwn.n.xml >rwn-n-isas.txt
-	xsltproc rwn-isas.xsl rwn.v.xml >rwn-v-isas.txt
-	xsltproc rwn-isas.xsl rwn.xml >rwn-isas.txt
+	xsltproc rwn-isas.xsl rwn.a.xml >rwn-a-isas.txt || echo "No RuWordNet for you." >/dev/stderr
+	xsltproc rwn-isas.xsl rwn.n.xml >rwn-n-isas.txt || echo "No RuWordNet for you." >/dev/stderr
+	xsltproc rwn-isas.xsl rwn.v.xml >rwn-v-isas.txt || echo "No RuWordNet for you." >/dev/stderr
+	xsltproc rwn-isas.xsl rwn.xml >rwn-isas.txt     || echo "No RuWordNet for you." >/dev/stderr
 
 rwn.xml:
 	@echo "# Assuming that you have RuWordNet in the directory ${CURDIR}/rwn-xml."
-	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.A.xml >rwn.a.xml
-	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.N.xml >rwn.n.xml
-	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.V.xml >rwn.v.xml
-	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.*.xml >rwn.xml
+	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.A.xml >rwn.a.xml || echo "No RuWordNet for you." >/dev/stderr
+	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.N.xml >rwn.n.xml || echo "No RuWordNet for you." >/dev/stderr
+	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.V.xml >rwn.v.xml || echo "No RuWordNet for you." >/dev/stderr
+	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.*.xml >rwn.xml   || echo "No RuWordNet for you." >/dev/stderr
 
 misc: lexicon freqrnc2012.csv
 
