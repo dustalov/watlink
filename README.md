@@ -23,7 +23,7 @@ Watlink is a method for automatic disambiguation of sense labels of asymmetric s
 
 ## See Also
 
-* [Watset](https://github.com/dustalov/watest), a synset induction method.
+* [Watset](https://github.com/dustalov/watset), a synset induction method.
 
 ## Copyright
 
