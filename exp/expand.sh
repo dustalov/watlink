@@ -18,7 +18,7 @@ for ISAS in $@; do
 
   EXPANDED=$(basename "${ISAS%-isas.txt}-exp")
 
-  PYTHONPATH=$CWD/../../faiss $CWD/neighbors.py < "$ISAS" > "$EXPANDED-knn.txt" \
+  PYTHONPATH=$CWD/../deps $CWD/neighbors.py < "$ISAS" > "$EXPANDED-knn.txt" \
     --w2v="$CWD/../../projlearn/$W2V" \
     --lexicon="$CWD/../data/ru/lexicon.txt"
 
