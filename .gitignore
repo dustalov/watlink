@@ -92,3 +92,5 @@ ENV/
 *.tsv
 *.txt
 *.swp
+
+!requirements.txt
