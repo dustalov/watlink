@@ -6,7 +6,7 @@
  
 -PYTHONCFLAGS=-I/usr/include/python2.7/ -I/usr/lib64/python2.7/site-packages/numpy/core/include/
 -
-+PYTHONCFLAGS=$$(python -c "import distutils.sysconfig, numpy; print(\" \".join([\"-I\" + distutils.sysconfig.get_python_inc(), \"-I\" + numpy.get_include()]))")
++PYTHONCFLAGS:=$(shell python3 -c 'import distutils.sysconfig, numpy; print(" ".join(["-I" + distutils.sysconfig.get_python_inc(), "-I" + numpy.get_include()]))')
  
  ###########################################################################
  # Cuda GPU flags
