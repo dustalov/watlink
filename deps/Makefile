@@ -1,4 +1,5 @@
 export LANG:=en_US.UTF-8
+export SHELL:=/bin/bash
 
 faiss.py: faiss-master.zip
 	rm -rf faiss-master
