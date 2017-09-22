@@ -4,7 +4,7 @@ export SHELL:=/bin/bash
 
 all: raw gold misc
 
-raw: patterns-filter wiktionary mas joint
+raw: patterns wiktionary mas joint
 
 patterns-filter: patterns lexicon
 	../filter.py -1 lexicon.txt < patterns-isas.txt > patterns-filter-isas.txt
@@ -51,7 +51,7 @@ rwn.xml:
 	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.V.xml >rwn.v.xml || echo "No RuWordNet for you." >/dev/stderr
 	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.*.xml >rwn.xml   || echo "No RuWordNet for you." >/dev/stderr
 
-misc: lexicon freqrnc2012.csv
+misc: freqrnc2012.csv
 
 lexicon:
 	awk -F $$'\t' '{print $$1; print $$2}' ../../../watset/data/ru/edges.count.txt > lexicon.txt

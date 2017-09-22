@@ -32,7 +32,7 @@ wordnet: wordnet-hypernyms-binary.csv.gz
 wordnet-hypernyms-binary.csv.gz:
 	curl -sLO 'http://panchenko.me/data/joint/watset/en/wordnet-hypernyms-binary.csv.gz'
 
-misc: lexicon
+misc:
 
 lexicon:
 	awk -F $$'\t' '{print $$1; print $$2}' ../../../watset/data/en/edges.count.txt > lexicon.txt
