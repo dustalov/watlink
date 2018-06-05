@@ -34,12 +34,12 @@ with args.synsets as f:
     reader = csv.reader(f, delimiter='\t', quoting=csv.QUOTE_NONE)
 
     for row in reader:
-        synsets[int(row[0])] = [word for word in row[2].split(', ') if word]
+        synsets[row[0]] = [word for word in row[2].split(', ') if word]
 
-        for word in synsets[int(row[0])]:
-            index[word].append(int(row[0]))
+        for word in synsets[row[0]]:
+            index[word].append(row[0])
 
-        lexicon.update(synsets[int(row[0])])
+        lexicon.update(synsets[row[0]])
 
 index = {word: {id: i + 1 for i, id in enumerate(ids)} for word, ids in index.items()}
 
