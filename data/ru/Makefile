@@ -16,11 +16,13 @@ patterns: ru-librusec-wiki-diff.csv.gz
 ru-librusec-wiki-diff.csv.gz:
 	curl -sLO 'http://panchenko.me/data/joint/isas/ru-librusec-wiki-diff.csv.gz'
 
-wiktionary: ruwiktionary-20170201.tsv
-	../wiktionary-isas.awk -v RELATION=HYPERNYM ruwiktionary-20170201.tsv >wiktionary-isas.txt
+WIKTIONARY=20170201
 
-ruwiktionary-20170201.tsv:
-	curl -sLO 'http://depot.nlpub.ru/wiktionary/ruwiktionary-20170201.tsv'
+wiktionary: ruwiktionary-$(WIKTIONARY).tsv
+	../wiktionary-isas.awk -v RELATION=HYPERNYM ruwiktionary-$(WIKTIONARY).tsv >wiktionary-isas.txt
+
+ruwiktionary-$(WIKTIONARY).tsv:
+	curl -sLO 'http://depot.nlpub.ru/wiktionary/ruwiktionary-$(WIKTIONARY).tsv'
 
 mas:
 	@echo "# Assuming that you have MAS as is-a-rel_MAS.txt."
@@ -36,13 +38,13 @@ ruthes: ruthes.xml
 
 ruthes.xml:
 	@echo "# Assuming that you have RuThes in the directory ${CURDIR}/ruthes-v2."
-	./ruthes-stub.awk ruthes-v2/*.xml >ruthes.xml || echo "No RuThes for you." >/dev/stderr
+	./ruthes-stub.awk ruthes-v2/*.xml >ruthes.xml || rm -f ruthes.xml
 
 rwn: rwn.xml
-	xsltproc rwn-isas.xsl rwn.a.xml >rwn-a-isas.txt || echo "No RuWordNet for you." >/dev/stderr
-	xsltproc rwn-isas.xsl rwn.n.xml >rwn-n-isas.txt || echo "No RuWordNet for you." >/dev/stderr
-	xsltproc rwn-isas.xsl rwn.v.xml >rwn-v-isas.txt || echo "No RuWordNet for you." >/dev/stderr
-	xsltproc rwn-isas.xsl rwn.xml >rwn-isas.txt     || echo "No RuWordNet for you." >/dev/stderr
+	xsltproc rwn-isas.xsl rwn.a.xml >rwn-a-isas.txt || rm -f rwn.a.xml
+	xsltproc rwn-isas.xsl rwn.n.xml >rwn-n-isas.txt || rm -f rwn.n.xml
+	xsltproc rwn-isas.xsl rwn.v.xml >rwn-v-isas.txt || rm -f rwn.v.xml
+	xsltproc rwn-isas.xsl rwn.xml >rwn-isas.txt     || rm -f rwn.xml
 
 rwn.xml:
 	@echo "# Assuming that you have RuWordNet in the directory ${CURDIR}/rwn-xml."

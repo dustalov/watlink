@@ -12,14 +12,13 @@ patterns: en_ps59g-rnk3-min100-nomwe-39k.csv
 en_ps59g-rnk3-min100-nomwe-39k.csv:
 	curl -sLO 'http://panchenko.me/data/joint/isas/en_ps59g-rnk3-min100-nomwe-39k.csv'
 
-wiktionary: enwiktionary-20170201.tsv enwiktionary-20170201-unfiltered.tsv
-	../wiktionary-isas.awk -v RELATION=HYPERNYM enwiktionary-20170201-unfiltered.tsv >wiktionary-isas.txt
+WIKTIONARY=20180601
 
-enwiktionary-20170201.tsv:
-	curl -sLO 'http://depot.nlpub.ru/wiktionary/enwiktionary-20170201.tsv'
+wiktionary: enwiktionary-$(WIKTIONARY).tsv enwiktionary-$(WIKTIONARY)-unfiltered.tsv
+	../wiktionary-isas.awk -v RELATION=HYPERNYM enwiktionary-$(WIKTIONARY).tsv >wiktionary-isas.txt
 
-enwiktionary-20170201-unfiltered.tsv:
-	curl -sLO 'http://depot.nlpub.ru/wiktionary/enwiktionary-20170201-unfiltered.tsv'
+enwiktionary-$(WIKTIONARY).tsv:
+	curl -sLO 'http://depot.nlpub.ru/wiktionary/enwiktionary-$(WIKTIONARY).tsv'
 
 joint: patterns wiktionary
 	cat {patterns,wiktionary}-isas.txt >joint-isas.txt
