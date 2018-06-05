@@ -26,7 +26,7 @@ ruwiktionary-$(WIKTIONARY).tsv:
 
 mas:
 	@echo "# Assuming that you have MAS as is-a-rel_MAS.txt."
-	./mas-isas.awk is-a-rel_MAS.txt >mas-isas.txt || echo "No MAS for you." >/dev/stderr
+	./mas-isas.awk is-a-rel_MAS.txt >mas-isas.txt || rm -f mas-isas.txt
 
 joint: patterns wiktionary mas
 	cat {patterns-limit,wiktionary,mas}-isas.txt >joint-isas.txt
@@ -34,7 +34,7 @@ joint: patterns wiktionary mas
 gold: ruthes rwn
 
 ruthes: ruthes.xml
-	xsltproc ruthes-isas.xsl ruthes.xml >ruthes-isas.txt || echo "No RuThes for you." >/dev/stderr
+	xsltproc ruthes-isas.xsl ruthes.xml >ruthes-isas.txt || rm -f ruthes-isas.txt
 
 ruthes.xml:
 	@echo "# Assuming that you have RuThes in the directory ${CURDIR}/ruthes-v2."
@@ -48,10 +48,10 @@ rwn: rwn.xml
 
 rwn.xml:
 	@echo "# Assuming that you have RuWordNet in the directory ${CURDIR}/rwn-xml."
-	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.A.xml >rwn.a.xml || echo "No RuWordNet for you." >/dev/stderr
-	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.N.xml >rwn.n.xml || echo "No RuWordNet for you." >/dev/stderr
-	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.V.xml >rwn.v.xml || echo "No RuWordNet for you." >/dev/stderr
-	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.*.xml >rwn.xml   || echo "No RuWordNet for you." >/dev/stderr
+	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.A.xml >rwn.a.xml || rm -f rwn.a.xml
+	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.N.xml >rwn.n.xml || rm -f rwn.n.xml
+	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.V.xml >rwn.v.xml || rm -f rwn.v.xml
+	./ruthes-stub.awk -v TAG=rwn rwn-xml/*.*.xml >rwn.xml   || rm -f rwn.xml
 
 misc: freqrnc2012.csv
 
