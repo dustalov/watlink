@@ -14,7 +14,7 @@ en_ps59g-rnk3-min100-nomwe-39k.csv:
 
 WIKTIONARY=20180601
 
-wiktionary: enwiktionary-$(WIKTIONARY).tsv enwiktionary-$(WIKTIONARY)-unfiltered.tsv
+wiktionary: enwiktionary-$(WIKTIONARY).tsv
 	../wiktionary-isas.awk -v RELATION=HYPERNYM enwiktionary-$(WIKTIONARY).tsv >wiktionary-isas.txt
 
 enwiktionary-$(WIKTIONARY).tsv:
