@@ -1,16 +1,17 @@
 export LANG:=en_US.UTF-8
 export SHELL:=/bin/bash
 
-faiss.py: faiss-master.zip
-	rm -rf faiss-master
-	unzip faiss-master.zip
-	cp -fv faiss-master/example_makefiles/makefile.inc.Linux faiss-master/makefile.inc
-	patch -d faiss-master -p0 <python3-faiss.patch
-	$(MAKE) -j$$(nproc) -C faiss-master all py
-	mv -fv faiss-master/{faiss.py,swigfaiss.py,_swigfaiss.so} .
+FAISS:=dcd83f95b9e091ec1972f48ec5e9ebf457f31612
 
-faiss-master.zip:
-	curl -sLo 'faiss-master.zip' 'https://github.com/facebookresearch/faiss/archive/master.zip'
+faiss.py: faiss.tar.gz
+	rm -rf faiss-$(FAISS)
+	tar zxf $<
+	patch -d faiss-$(FAISS) example_makefiles/makefile.inc.Linux -i ../python3-faiss.patch -o makefile.inc
+	$(MAKE) -j$$(nproc) -C faiss-$(FAISS) all py
+	mv -fv faiss-$(FAISS)/{faiss.py,swigfaiss.py,_swigfaiss.so} .
+
+faiss.tar.gz:
+	curl -sLo '$@' 'https://github.com/facebookresearch/faiss/archive/$(FAISS).tar.gz'
 
 clean:
 	rm -rf faiss* swig* _swig* __pycache__
