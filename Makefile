@@ -6,10 +6,13 @@ export LC_COLLATE:=C
 deps:
 	$(MAKE) -C deps faiss.py
 
-data: data-ru data-en
+data: data-ru data-en data-watset
 
 data-ru:
 	$(MAKE) -C data ru
 
 data-en:
 	$(MAKE) -C data en
+
+data-watset:
+	$(MAKE) -C data watset
