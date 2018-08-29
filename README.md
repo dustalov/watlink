@@ -3,11 +3,6 @@ Watlink
 
 Watlink is a method for automatic disambiguation of sense labels of asymmetric semantic relations. It requires a set of synsets and a set of pairs representing the relations between words.
 
-[![Dependency Status][gemnasium_badge]][gemnasium_link]
-
-[gemnasium_badge]: https://gemnasium.com/dustalov/watlink.svg
-[gemnasium_link]: https://gemnasium.com/dustalov/watlink
-
 ## Citation
 
 * [Ustalov, D.](https://github.com/dustalov): [Expanding Hierarchical Contexts for Constructing a Semantic Word Network](http://www.dialog-21.ru/media/3959/ustalovda.pdf). In: Computational Linguistics and Intellectual Technologies: Papers from the Annual conference “Dialogue”. Volume 1 of 2. Computational Linguistics: Practical Applications. pp.&nbsp;369–381. RSUH, Moscow, Russia (2017)
