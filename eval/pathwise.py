@@ -3,11 +3,16 @@
 import argparse
 import csv
 import itertools
+import warnings
 from concurrent.futures import ProcessPoolExecutor
 import networkx as nx
+from sklearn.exceptions import UndefinedMetricWarning
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
 from collections import defaultdict
 from scipy.stats import wilcoxon
+
+# The metrics can be ill-defined, but this is OK.
+warnings.simplefilter('ignore', category=UndefinedMetricWarning)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--gold', required=True)
