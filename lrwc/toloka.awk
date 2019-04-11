@@ -1,4 +1,4 @@
-#!/usr/bin/awk -f
+#!/usr/bin/gawk -f
 BEGIN {
     FS = OFS = "\t";
     print "INPUT:hyponym", "INPUT:hypernym", "INPUT:genitive", "GOLDEN:judgement", "HINT:text";

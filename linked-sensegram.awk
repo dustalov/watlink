@@ -1,4 +1,4 @@
-#!/usr/bin/awk -f
+#!/usr/bin/gawk -f
 BEGIN {
     FS = OFS = "\t";
     print "word", "cid", "cluster", "isas";
