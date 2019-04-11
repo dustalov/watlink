@@ -1,12 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
-from gensim.models.word2vec import Word2Vec
-import faiss
-from collections import defaultdict
 import csv
-import numpy as np
 import sys
+from collections import defaultdict
+
+import faiss
+import numpy as np
+from gensim.models.word2vec import Word2Vec
 
 parser = argparse.ArgumentParser(description='Nearest Neighbors.')
 parser.add_argument('--w2v', required=True, type=argparse.FileType('rb'))

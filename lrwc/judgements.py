@@ -1,16 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 import csv
+import itertools
+import sys
 from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor
-import operator
-import sys
-import itertools
-from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
-from scipy.stats import wilcoxon
-
 from signal import signal, SIGINT
+
+from scipy.stats import wilcoxon
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
+
 signal(SIGINT, lambda signum, frame: sys.exit(1))
 
 parser = argparse.ArgumentParser()
@@ -47,13 +47,15 @@ for row in csv.DictReader(args.sample, delimiter='\t', quoting=csv.QUOTE_NONE):
 
 lexicon = sorted({hyponym for pairs in resources.values() for hyponym, _ in pairs})
 
+
 def wordwise(resource, word):
     pairs = [pair for pair in resource if pair[0] == word]
 
     word_true = [int(pair[1] is None or gold[pair]) for pair in pairs]
-    word_pred = [int(pair[1] is not None)           for pair in pairs]
+    word_pred = [int(pair[1] is not None) for pair in pairs]
 
     return (word_true, word_pred)
+
 
 def scores(resource):
     if not args.significance:
@@ -63,30 +65,34 @@ def scores(resource):
 
     return {metric: [score(*true_pred) for true_pred in labels] for metric, score in METRICS.items()}
 
+
 def evaluate(path):
     true = [int(pair[1] is None or gold[pair]) for pair in resources[path]]
-    pred = [int(pair[1] is not None)           for pair in resources[path]]
+    pred = [int(pair[1] is not None) for pair in resources[path]]
 
     tn, fp, fn, tp = confusion_matrix(true, pred).ravel()
 
     return {
-        'tn':        tn,
-        'fp':        fp,
-        'fn':        fn,
-        'tp':        tp,
+        'tn': tn,
+        'fp': fp,
+        'fn': fn,
+        'tp': tp,
         'precision': precision_score(true, pred),
-        'recall':    recall_score(true, pred),
-        'f1':        f1_score(true, pred),
-        'scores':    scores(resources[path])
+        'recall': recall_score(true, pred),
+        'f1': f1_score(true, pred),
+        'scores': scores(resources[path])
     }
+
 
 with ProcessPoolExecutor() as executor:
     results = {path: result for path, result in zip(resources.keys(), executor.map(evaluate, resources.keys()))}
+
 
 def pairwise(iterable):
     a, b = itertools.tee(iterable)
     next(b, None)
     return zip(a, b)
+
 
 def significance(metric):
     if not args.significance:
@@ -107,10 +113,12 @@ def significance(metric):
 
     return ranks
 
+
 with ProcessPoolExecutor() as executor:
     ranks = {metric: result for metric, result in zip(METRICS, executor.map(significance, METRICS))}
 
-print('\t'.join(('path', 'pairs', 'tn', 'fp', 'fn', 'tp', 'precision', 'recall', 'f1', 'precision_rank', 'recall_rank', 'f1_rank')))
+print('\t'.join(
+    ('path', 'pairs', 'tn', 'fp', 'fn', 'tp', 'precision', 'recall', 'f1', 'precision_rank', 'recall_rank', 'f1_rank')))
 
 for path, values in results.items():
     print('\t'.join((
@@ -124,6 +132,6 @@ for path, values in results.items():
         str(values['recall']),
         str(values['f1']),
         str(ranks['precision'].get(path, 0)),
-        str(ranks['recall'   ].get(path, 0)),
-        str(ranks['f1'       ].get(path, 0))
+        str(ranks['recall'].get(path, 0)),
+        str(ranks['f1'].get(path, 0))
     )))

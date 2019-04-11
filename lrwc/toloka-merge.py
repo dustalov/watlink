@@ -1,16 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 import csv
-from collections import defaultdict
 import sys
+from collections import defaultdict
 
 REQUIRED = ['INPUT:hyponym',
             'INPUT:hypernym',
             'INPUT:genitive',
             'OUTPUT:judgement']
 
-AGGREGATED  = REQUIRED + ['CONFIDENCE:judgement']
+AGGREGATED = REQUIRED + ['CONFIDENCE:judgement']
 
 ASSIGNMENTS = REQUIRED + ['GOLDEN:judgement',
                           'HINT:text',

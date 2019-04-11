@@ -1,23 +1,24 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
-import csv
-import sys
-import itertools
-from collections import defaultdict, Counter
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.preprocessing import Binarizer
-from sklearn.pipeline import Pipeline
-from sklearn.feature_extraction import DictVectorizer
-from sklearn.metrics.pairwise import cosine_similarity as sim
 import concurrent.futures
-
+import csv
+import itertools
+import sys
+from collections import defaultdict, Counter
 from signal import signal, SIGINT
+
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.metrics.pairwise import cosine_similarity as sim
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import Binarizer
+
 signal(SIGINT, lambda signum, frame: sys.exit(1))
 
 WEIGHT = {
-    'tf':    TfidfTransformer(use_idf=False),
-    'idf':   Pipeline([('binary', Binarizer()), ('idf', TfidfTransformer())]),
+    'tf': TfidfTransformer(use_idf=False),
+    'idf': Pipeline([('binary', Binarizer()), ('idf', TfidfTransformer())]),
     'tfidf': TfidfTransformer()
 }
 
@@ -62,6 +63,7 @@ for id, words in synsets.items():
 
 v = Pipeline([('dict', DictVectorizer()), (args.weight, WEIGHT[args.weight])]).fit(hctx.values())
 
+
 def emit(id):
     if not id in hctx:
         return (id, {})
@@ -75,9 +77,11 @@ def emit(id):
             if cosine > 0:
                 candidates[(hypernym, hid)] = cosine
 
-    matches = [(hypernym, hid, cosine) for (hypernym, hid), cosine in candidates.most_common(len(candidates) if args.k == 0 else args.k) if hypernym not in synsets[id]]
+    matches = [(hypernym, hid, cosine) for (hypernym, hid), cosine in
+               candidates.most_common(len(candidates) if args.k == 0 else args.k) if hypernym not in synsets[id]]
 
     return (id, matches)
+
 
 with concurrent.futures.ProcessPoolExecutor() as executor:
     futures = (executor.submit(emit, id) for id in synsets)

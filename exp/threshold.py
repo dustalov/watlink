@@ -1,11 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
-from gzip import GzipFile
 import csv
-from gensim.models.word2vec import Word2Vec
-import numpy as np
 import sys
+from gzip import GzipFile
+
+import numpy as np
+from gensim.models.word2vec import Word2Vec
 
 parser = argparse.ArgumentParser(description='Expansion.')
 parser.add_argument('-d', default=1, nargs='?', type=float)
@@ -13,6 +14,7 @@ parser.add_argument('--w2v', required=True, type=argparse.FileType('rb'))
 parser.add_argument('--predicted', type=argparse.FileType('rb'))
 parser.add_argument('--gzip', default=False, action='store_true')
 args = parser.parse_args()
+
 
 def predictions(f):
     i = 0
@@ -26,6 +28,7 @@ def predictions(f):
             break
 
     print('%d slices passed' % i, flush=True, file=sys.stderr)
+
 
 w2v = Word2Vec.load_word2vec_format(args.w2v, binary=True, unicode_errors='ignore')
 w2v.init_sims(replace=True)

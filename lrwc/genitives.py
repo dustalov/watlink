@@ -1,20 +1,23 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
-import sys
-import pymorphy2
 import csv
+import sys
 from collections import defaultdict
+
+import pymorphy2
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--no-inflection', dest='inflection', action='store_false')
 args = parser.parse_args()
 
 from signal import signal, SIGINT
+
 signal(SIGINT, lambda signum, frame: sys.exit(1))
 
 if args.inflection:
     morph = pymorphy2.MorphAnalyzer()
+
 
 def inflect(word):
     if not word or not args.inflection:
@@ -33,6 +36,7 @@ def inflect(word):
     inflection = match.inflect({'gent'})
 
     return (inflection.word if inflection else word) + suffix
+
 
 isas = defaultdict(set)
 
