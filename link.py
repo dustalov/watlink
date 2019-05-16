@@ -2,7 +2,6 @@
 
 import argparse
 import concurrent.futures
-import csv
 import itertools
 import sys
 from collections import defaultdict, Counter
@@ -31,27 +30,35 @@ args = parser.parse_args()
 
 synsets, index, lexicon = {}, defaultdict(list), set()
 
-with args.synsets as f:
-    reader = csv.reader(f, delimiter='\t', quoting=csv.QUOTE_NONE)
+for line in args.synsets:
+    line = line.rstrip()
 
-    for row in reader:
-        synsets[row[0]] = [word for word in row[2].split(', ') if word]
+    if not line:
+        continue
 
-        for word in synsets[row[0]]:
-            index[word].append(row[0])
+    row = line.split('\t')
 
-        lexicon.update(synsets[row[0]])
+    synsets[row[0]] = [word for word in row[2].split(', ') if word]
+
+    for word in synsets[row[0]]:
+        index[word].append(row[0])
+
+    lexicon.update(synsets[row[0]])
 
 index = {word: {id: i + 1 for i, id in enumerate(ids)} for word, ids in index.items()}
 
 isas = defaultdict(set)
 
-with args.isas as f:
-    reader = csv.reader(f, delimiter='\t', quoting=csv.QUOTE_NONE)
+for line in args.isas:
+    line = line.rstrip()
 
-    for row in reader:
-        if len(row) > 1 and row[0] in lexicon and row[1] in lexicon:
-            isas[row[0]].add(row[1])
+    if not line:
+        continue
+
+    row = line.split('\t')
+
+    if len(row) > 1 and row[0] in lexicon and row[1] in lexicon:
+        isas[row[0]].add(row[1])
 
 hctx = {}
 
