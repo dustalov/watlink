@@ -92,8 +92,10 @@ ENV/
 .ropeproject
 
 *.ipynb
+*.csv
 *.tsv
 *.txt
 *.swp
+*.xz
 
 !requirements.txt
