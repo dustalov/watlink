@@ -2,27 +2,21 @@
 export LANG=en_US.UTF-8 LC_COLLATE=C
 
 DATA=$(find data/en -regex '^.*\(patterns\|wiktionary\|joint\).*-isas\.txt$')
-
-WEIGHT=tfidf
+DENSE=$(find data/konvens2018/en -name 'wordnet*-s1-hmx15-hc3*.csv' -o -name 'watset-*-s1-hmx20-hc3*.csv')
 
 rm -rfv "eval/konvens2018-en"
-
 mkdir -p "eval/konvens2018-en"
 
-for SYNSETS in deps/watset/data/en/wordnet-synsets.tsv data/watset/eval/en/w2v/watset-mcl-mcl-synsets.tsv; do
+for ALL in $DENSE; do
 
-for ISAS in $DATA; do
+  ONLY=$(basename "${ALL%.csv}-sparse-isas.txt")
+  egrep 'from-original-labels$' "$ALL" > "$ONLY"
+  mv -fv "$ONLY" "eval/konvens2018-en"
 
-  LINKED=$(basename "${SYNSETS%-synsets.tsv}")-$(basename "${ISAS%-isas.txt}")-$WEIGHT-linked.tsv
-  ./link.py --synsets=$SYNSETS --isas=$ISAS --weight=$WEIGHT | sort -t $'\t' -k2nr -k4nr -k1n -o "$LINKED"
-
-  ISAS=${LINKED%-linked.tsv}-isas.txt
-  ./linked-isas.awk "$LINKED" > "$ISAS"
-
-  mv -fv "$LINKED" "$ISAS" "eval/konvens2018-en"
+  ONLY=$(basename "${ALL%.csv}-dense-isas.txt")
+  egrep 'from-vector-linkage$' "$ALL" > "$ONLY"
+  mv -fv "$ONLY" "eval/konvens2018-en"
 
 done
 
-done
-
-eval/pathwise.py --gold=data/en/wordnet-isas.txt $DATA eval/konvens2018-en/*-isas.txt | tee pathwise-konvens2018-en-wordnet.tsv | sort -t $'\t' -g -k9r | column -t
+eval/pathwise.py --gold=data/en/wordnet-isas.txt $DATA $DENSE eval/konvens2018-en/*-{sparse,dense}-isas.txt | sort -t $'\t' -g -k9r | tee pathwise-konvens2018-en-wordnet.tsv | column -t

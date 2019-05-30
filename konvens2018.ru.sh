@@ -2,34 +2,21 @@
 export LANG=en_US.UTF-8 LC_COLLATE=C
 
 DATA=$(find data/ru -regex '^.*\(patterns-limit\|wiktionary\|mas\|joint\).*-isas\.txt$')
+DENSE=$(find data/konvens2018-new -name '*-s1-hmx20-hc3*.csv' -not -name '*ruthes*')
 
-DENSE=$(find data/konvens2018/ru -name '*.csv')
+rm -rfv "eval/konvens2018-ru"
+mkdir -p "eval/konvens2018-ru"
 
-WEIGHT=tfidf
+for ALL in $DENSE; do
 
-#rm -rfv "eval/konvens2018-ru"
+  ONLY=$(basename "${ALL%.csv}-sparse-isas.txt")
+  egrep 'from-original-labels$' "$ALL" > "$ONLY"
+  mv -fv "$ONLY" "eval/konvens2018-ru"
 
-#mkdir -p "eval/konvens2018-ru"
+  ONLY=$(basename "${ALL%.csv}-dense-isas.txt")
+  egrep 'from-vector-linkage$' "$ALL" > "$ONLY"
+  mv -fv "$ONLY" "eval/konvens2018-ru"
 
-#for SYNSETS in deps/watset/data/ru/{rwn,ruthes}-synsets.tsv data/watset/eval/ru/w2v/watset-cw-nolog-mcl-synsets.tsv; do
+done
 
-#for ISAS in $DATA; do
-
-  #LINKED=$(basename "${SYNSETS%-synsets.tsv}")-$(basename "${ISAS%-isas.txt}")-$WEIGHT-linked.tsv
-  #./link.py --synsets=$SYNSETS --isas=$ISAS --weight=$WEIGHT | sort -t $'\t' -k2nr -k4nr -k1n -o "$LINKED"
-
-  #ISAS=${LINKED%-linked.tsv}-isas.txt
-  #./linked-isas.awk "$LINKED" > "$ISAS"
-
-  #SENSEGRAM=${LINKED%-linked.tsv}-sensegram.tsv
-  #./linked-sensegram.awk "$LINKED" > "$SENSEGRAM"
-
-  #mv -fv "$LINKED" "$ISAS" "$SENSEGRAM" "eval/konvens2018-ru"
-
-#done
-
-#done
-
-eval/pathwise.py --gold=data/ru/rwn-isas.txt data/ru/patterns-isas.txt $DATA $DENSE eval/konvens2018-ru/*-isas.txt | tee pathwise-konvens2018-ru-rwn.tsv | sort -t $'\t' -g -k9r | column -t
-
-eval/pathwise.py --gold=data/ru/ruthes-isas.txt data/ru/patterns-isas.txt $DATA $DENSE eval/konvens2018-ru/*-isas.txt | tee pathwise-konvens2018-ru-ruthes.tsv | sort -t $'\t' -g -k9r | column -t
+eval/pathwise.py --gold=data/ru/rwn-isas.txt data/ru/patterns-isas.txt $DATA $DENSE eval/konvens2018-ru/*-{sparse,dense}-isas.txt | sort -t $'\t' -g -k9r | tee pathwise-konvens2018-ru-rwn.tsv | column -t
