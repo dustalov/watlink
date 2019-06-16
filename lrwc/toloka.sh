@@ -12,6 +12,8 @@ patterns-limit-exp-isas.txt \
 wiktionary-exp-isas.txt \
 mas-exp-isas.txt \
 joint-exp-isas.txt \
+watset-cw-nolog-mcl-wiktionary-isas.txt \
+watset-cw-nolog-mcl-wiktionary-exp-isas.txt \
 watset-cw-nolog-mcl-joint-exp-isas.txt \
 watset-cw-nolog-mcl-joint-isas.txt"
 
