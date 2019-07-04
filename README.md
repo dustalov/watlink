@@ -1,7 +1,7 @@
 Watlink
 =======
 
-Watlink is an automatic sense disambiguation method for asymmetric semantic relations. It requires a set of synsets and a set of pairs representing the relationships between words.
+Watlink is an automatic sense disambiguation method for asymmetric semantic relations. It requires a set of synsets and a set of pairs representing the relationships between words. It is also used to construct the Lexical Relations from the Wisdom of the Crowd (LRWC) dataset.
 
 ## Unsupervised Sense-Aware Hypernymy Extraction Experiment
 
@@ -22,7 +22,7 @@ Watlink is an automatic sense disambiguation method for asymmetric semantic rela
 }
 ```
 
-## Hierarchical Context Expansion Experiment
+## Hierarchical Context Expansion and LRWC Experiment
 
 * [Ustalov, D.](https://github.com/dustalov): [Expanding Hierarchical Contexts for Constructing a Semantic Word Network](http://www.dialog-21.ru/media/3959/ustalovda.pdf). In: Computational Linguistics and Intellectual Technologies: Papers from the Annual conference “Dialogue”. Volume 1 of 2. Computational Linguistics: Practical Applications. pp.&nbsp;369&ndash;381. RSUH, Moscow, Russia (2017)
 
@@ -47,8 +47,9 @@ The datasets are available for download on the [Releases](https://github.com/dus
 
 ## See Also
 
-* [Watset](https://github.com/dustalov/watset), a synset induction method
+* [Watset](https://github.com/dustalov/watset), a synset induction method (and its [implementation in Java](https://github.com/nlpub/watset-java))
 * [SenseGram](https://github.com/uhh-lt/sensegram), a vector representation experiment
+* [LRWC](https://doi.org/10.5281/zenodo.546302), dataset on lexical relations from the wisdom of the crowd
 
 ## Copyright
 
